@@ -11,7 +11,7 @@ from sklearn.ensemble import RandomForestClassifier
 
 
 model_fname = "model_params.save"
-MODEL_NAME = "binary_class_random_forest_shapley"
+MODEL_NAME = "bin_class_base_random_forest_shapley"
 
 
 class Classifier(): 

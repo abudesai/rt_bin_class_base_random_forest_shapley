@@ -79,7 +79,19 @@ class ModelServer:
         preds_df[class_names[1]] = preds  
         #print(preds_df) 
         
-        return preds_df    
+        return preds_df     
+    
+    
+    def predict(self, data):
+        preds = self._get_predictions(data)        
+        
+        # inverse transform the prediction probabilities to class labels
+        pred_classes = pipeline.get_inverse_transform_on_preds(self.preprocessor, model_cfg, preds) 
+        # return te prediction df with the id and prediction fields
+        preds_df = data[[self.id_field_name]].copy()
+        preds_df['prediction'] = pred_classes
+        
+        return preds_df
     
     
     def _get_target_class_proba(self, X): 

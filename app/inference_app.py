@@ -110,12 +110,7 @@ def explain():
     print(f"Invoked with {data.shape[0]} records")
     # Do the prediction
     try: 
-        explanations = model_server.explain_local(data)
-        # Convert from dataframe to CSV
-        out = io.StringIO()
-        explanations.to_csv(out, index=False)
-        result = out.getvalue()
-
+        explanations = model_server.explain_local(data) # returns a json string object
         return flask.Response(response=explanations, status=200, mimetype="text/csv")
     except Exception as err:
         # Write out an error file. This will be returned as the failureReason to the client.
