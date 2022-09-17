@@ -9,7 +9,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 class DropNATransformer(BaseEstimator, TransformerMixin):  
     ''' Scale ratings '''
-    def __init__(self, cols_list): 
+    def __init__(self, cols_list):  
         super().__init__()
         self.cols_list = cols_list
 
@@ -302,7 +302,7 @@ class TargetFeatureAdder(BaseEstimator, TransformerMixin):
     
     def transform(self, data): 
         if self.label_field_name not in data.columns: 
-            data[self.label_field_name] = 0.
+            data[self.label_field_name] = ''
         return data
 
 
