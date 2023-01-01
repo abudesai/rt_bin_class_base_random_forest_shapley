@@ -74,7 +74,8 @@ def preprocess_data(train_data, valid_data, data_schema):
     return train_data, valid_data, preprocess_pipe 
 
 
-def get_resampled_data(X, y):  
+def get_resampled_data(X, y):    
+    
     # if some minority class is observed only 1 time, and a majority class is observed 100 times
     # we dont over-sample the minority class 100 times. We have a limit of how many times
     # we sample. max_resample is that parameter - it represents max number of full population
@@ -97,17 +98,17 @@ def get_resampled_data(X, y):
         full_samples = size // count        
         idx = y == i
         for _ in range(full_samples):
-            resampled_X.append(X.loc[idx])
-            resampled_y.append(y.loc[idx])
-        # find the remaining samples to draw randomly        
-        remaining =  size - count * full_samples 
-        idx_list = list(X.loc[idx].index)
-        sampled_idx = np.random.choice(idx_list, size = remaining, replace=True)
-        resampled_X.append(X.iloc[sampled_idx])
-        resampled_y.append(y.iloc[sampled_idx])
-    
-    resampled_X = pd.concat(resampled_X, axis=0, ignore_index=True)    
-    resampled_y = pd.concat(resampled_y, axis=0, ignore_index=True)    
+            resampled_X.append(X[idx, :])
+            resampled_y.append(y[idx])
+        # find the remaining samples to draw randomly
+        remaining =  size - count * full_samples   
+        sampled_idx = np.random.randint(count, size=remaining)
+        resampled_X.append(X[idx, :][sampled_idx, :])
+        resampled_y.append(y[idx][sampled_idx])
+        
+    resampled_X = np.concatenate(resampled_X, axis=0)
+    resampled_y = np.concatenate(resampled_y, axis=0)
+    # print(resampled_X.shape, resampled_y.shape)
     
     # shuffle the arrays
     resampled_X, resampled_y = shuffle(resampled_X, resampled_y)

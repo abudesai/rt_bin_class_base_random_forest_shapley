@@ -120,7 +120,6 @@ class ModelServer:
         # original class predictions
 
         model = self._get_model()
-
         pred_X = proc_data["X"].astype(np.float)
         ids = proc_data["ids"]
 
@@ -128,7 +127,6 @@ class ModelServer:
         pred_target_class_prob = model.predict_proba(pred_X)
 
         class_names = pipeline.get_class_names(preprocessor, model_cfg)
-        print(class_names)
         # ------------------------------------------------------------------------------
         print(f"Generating local explanations for {pred_X.shape[0]} sample(s).")
         # create the shapley explainer
@@ -150,8 +148,6 @@ class ModelServer:
             other_class = str(
                 class_names[0] if class_names[1] == pred_class else class_names[1]
             )
-            print('pred class and prob', pred_class, class_prob)
-            print('other class and prob', other_class, 1 - class_prob)
             probabilities = {
                 other_class: np.round(1 - class_prob, 5),
                 pred_class: np.round(class_prob, 5),
@@ -168,7 +164,7 @@ class ModelServer:
 
             explanations.append({
                 self.id_field_name: ids[i],
-                "label": pred_class,
+                "label": str(pred_class),
                 "probabilities": probabilities,
                 "explanations": sample_expl_dict,
             })

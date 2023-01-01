@@ -9,7 +9,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 class DropNATransformer(BaseEstimator, TransformerMixin):  
     ''' Scale ratings '''
-    def __init__(self, cols_list):  
+    def __init__(self, cols_list): 
         super().__init__()
         self.cols_list = cols_list
 
@@ -262,34 +262,35 @@ class MinMaxBounder(BaseEstimator, TransformerMixin):
     
 
 
-class CustomLabelBinarizer(BaseEstimator, TransformerMixin): 
+class CustomLabelBinarizer(BaseEstimator, TransformerMixin):
     def __init__(self, label_field_name, target_class) -> None:
         super().__init__()
         self.label_field_name = label_field_name
-        self.target_class = target_class
+        self.target_class = str(target_class)
         self.given_classes = None
 
-
-    def fit(self, data):         
+    def fit(self, data):
         # grab the two classes
+        data[self.label_field_name] = data[self.label_field_name].astype(str)
         given_classes = data[self.label_field_name].drop_duplicates().tolist()
         # sort so that the target class is last
-        given_classes.sort(key = lambda k: k == self.target_class)
+        given_classes.sort(key=lambda k: k == self.target_class)
         # save for transformation
         self.given_classes = given_classes
-        return self 
-    
-    
+        return self
+
     def transform(self, data):
-        if self.label_field_name in data.columns: 
+        if self.label_field_name in data.columns:
             # binarize
-            data[self.label_field_name] = label_binarize(data[self.label_field_name], classes = self.given_classes).flatten()
+            data[self.label_field_name] = data[self.label_field_name].astype(str)
+            data[self.label_field_name] = label_binarize(
+                data[self.label_field_name], classes=self.given_classes
+            ).flatten()
         return data
-    
-    
-    def inverse_transform(self, preds): 
-        preds2 = np.where( preds > 0.5, self.target_class, self.given_classes[0])
-        return preds2        
+
+    def inverse_transform(self, preds):
+        preds2 = np.where(preds > 0.5, self.target_class, self.given_classes[0])
+        return preds2     
     
 
 
@@ -335,15 +336,15 @@ class XYSplitter(BaseEstimator, TransformerMixin):
     def transform(self, data):  
         # data.to_csv("data.csv", index=False); sys.exit()
         if self.target_col in data.columns: 
-            y = data[self.target_col]
+            y = data[self.target_col].values
         else: 
             y = None
         
         not_X_cols = [ self.id_col, self.target_col ] 
         X_cols = [ col for col in data.columns if col not in not_X_cols ]
-        X = data[X_cols]
+        X = data[X_cols].values
         
-        return { 'X': X, 'y': y, 'ids': data[self.id_col].values }
+        return { 'X': X, 'y': y }
     
         
     

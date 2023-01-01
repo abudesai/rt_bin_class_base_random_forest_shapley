@@ -1,7 +1,6 @@
 # major part of code sourced from aws sagemaker example: 
 # https://github.com/aws/amazon-sagemaker-examples/blob/main/advanced_functionality/scikit_bring_your_own/container/decision_trees/predictor.py
 
-import io
 import json
 import numpy as np, pandas as pd
 import flask
