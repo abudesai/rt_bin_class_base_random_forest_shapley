@@ -33,9 +33,6 @@ class TypeCaster(BaseEstimator, TransformerMixin):
         
 
     def transform(self, data):  
-        print(self.vars )
-        print(self.cast_type )
-        print(data)
         data = data.copy()
         applied_cols = [col for col in self.vars if col in data.columns] 
         for var in applied_cols: 

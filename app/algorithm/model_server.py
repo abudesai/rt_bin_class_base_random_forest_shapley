@@ -52,7 +52,6 @@ class ModelServer:
         pred_X = proc_data["X"].astype(np.float)
         # make predictions
         preds = model.predict_proba(pred_X)
-        print(preds)
         return preds
 
 
@@ -61,7 +60,7 @@ class ModelServer:
         preds = self._get_predictions(data)
         class_names = pipeline.get_class_names(self.preprocessor, model_cfg)        
         preds_df = data[[self.id_field_name]].copy()
-        preds_df[class_names] = preds
+        preds_df[class_names] = np.round(preds, 5)
         return preds_df
 
 
