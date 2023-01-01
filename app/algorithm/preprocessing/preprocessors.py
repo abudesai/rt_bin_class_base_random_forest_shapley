@@ -344,7 +344,7 @@ class XYSplitter(BaseEstimator, TransformerMixin):
         X_cols = [ col for col in data.columns if col not in not_X_cols ]
         X = data[X_cols].values
         
-        return { 'X': X, 'y': y }
+        return { 'X': X, 'y': y , "ids": data[self.id_col].values, "X_cols": X_cols}
     
         
     

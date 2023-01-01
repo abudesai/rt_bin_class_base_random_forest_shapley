@@ -122,6 +122,7 @@ class ModelServer:
         model = self._get_model()
         pred_X = proc_data["X"].astype(np.float)
         ids = proc_data["ids"]
+        X_cols = proc_data["X_cols"]
 
         pred_classes = model.predict(pred_X).astype(np.int16)
         pred_target_class_prob = model.predict_proba(pred_X)
@@ -133,7 +134,7 @@ class ModelServer:
         mask = np.zeros_like(pred_X)
         explainer = Explainer(self._get_target_class_proba, mask, seed=1)
         # Get local explanations
-        shap_values = explainer(pred_X)
+        shap_values = explainer(pd.DataFrame(pred_X, columns=X_cols))
 
 
         # ------------------------------------------------------------------------------
