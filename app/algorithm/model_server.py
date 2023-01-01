@@ -84,7 +84,7 @@ class ModelServer:
         for rec in preds_df.to_dict(orient="records"):
             pred_obj = {}
             pred_obj[self.id_field_name] = rec[self.id_field_name]
-            pred_obj["label"] = rec["__label"]
+            pred_obj["label"] = str(rec["__label"])
             pred_obj["probabilities"] = {
                 str(k): np.round(v, 5)
                 for k, v in rec.items()
@@ -92,7 +92,6 @@ class ModelServer:
             }
             predictions_response.append(pred_obj)
         
-        print("predictions_response", predictions_response)
         return predictions_response
 
 
