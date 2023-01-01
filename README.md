@@ -1,4 +1,4 @@
-Random Forest Classifier in SciKitLearn for Binary Classification - Base problem category as per Ready Tensor specifications.
+Random Forest Classifier in SciKitLearn with Shapley explanations for Binary Classification - Base problem category as per Ready Tensor specifications.
 
 - random forest
 - ensemble
@@ -15,7 +15,7 @@ Random Forest Classifier in SciKitLearn for Binary Classification - Base problem
 - flask
 - nginx
 - uvicorn
-- docker
+- dockerv
 
 This is an explainable version of Random Forest classifier, with Shapley values for model interpretability.
 

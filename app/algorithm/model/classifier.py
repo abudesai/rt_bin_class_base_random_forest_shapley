@@ -33,12 +33,10 @@ class Classifier():
         
     
     def predict(self, X, verbose=False): 
-        preds = self.model.predict(X)
-        return preds 
+        return self.model.predict(X) 
     
     def predict_proba(self, X): 
-        return self.model.predict_proba(X)
-        
+        return self.model.predict_proba(X)        
     
 
     def summary(self):
@@ -73,11 +71,7 @@ def save_model(model, model_path):
     
 
 def load_model(model_path): 
-    try: 
-        model = Classifier.load(model_path)        
-    except: 
-        raise Exception(f'''Error loading the trained {MODEL_NAME} model. 
-            Do you have the right trained model in path: {model_path}?''')
+    model = Classifier.load(model_path)     
     return model
 
 

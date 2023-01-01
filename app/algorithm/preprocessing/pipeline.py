@@ -154,15 +154,6 @@ def get_preprocess_pipeline(pp_params, model_cfg):
     # ===============================================================
     # ===== NUMERICAL VARIABLES =====
     
-    pipe_steps.append(
-        # ===== CAST CAT VARS TO STRING =====
-        (
-            pp_step_names["FLOAT_TYPE_CASTER"],
-            preprocessors.FloatTypeCaster(
-                num_vars=pp_params['num_vars']
-                ),
-        )
-    )
     
     if len(pp_params['num_na']):
         # add missing indicator to nas in numerical features 
